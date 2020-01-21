@@ -1,4 +1,4 @@
-# Firebase Google Sheets CMS
+# Firesheets
 
 This package makes it easy use to maintain your firebase database (Firestore) using Google Sheets.
 
