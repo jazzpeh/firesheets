@@ -1,7 +1,7 @@
 {
-  "name": "firebase-googlesheets-cms",
+  "name": "firesheets",
   "version": "1.0.0",
-  "description": "Import data to firestore using Google sheets",
+  "description": "Import data to firestore using Google sheets via CLI",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
