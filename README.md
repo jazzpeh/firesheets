@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/firesheets.svg)](https://badge.fury.io/js/firesheets)
+
 # Firesheets
 
 This package makes it easy use to maintain your firebase database (Firestore) using Google Sheets via CLI.
