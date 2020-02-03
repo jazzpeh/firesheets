@@ -38,6 +38,14 @@ class GSheets {
      * @private
      */
     this.oAuth2Client;
+
+    /**
+     * Split regex pattern - split by comma, but avoid comma that is enclosed inside a single/double quote
+     * To be used with StringConverter.split
+     * @type {RegExp}
+     * @private
+     */
+    this.splitRegex = /,(?=([^('|")]*('|")[^('|")]*('|"))*[^('|")]*$)/g;
   }
 
   /**
@@ -192,16 +200,23 @@ class GSheets {
    */
   toDataType(data, type) {
     const isArray = type.indexOf('[') > -1 && type.indexOf(']') > -1;
-    let result;
+    let result = null;
 
     if (isArray) {
       type = type.replace('[]', '');
       result = [];
+      let dataArr =[];
 
-      const dataArr = data.split(',');
+      if (type.toLowerCase() === 'map') {
+        dataArr = data.split(',,');
+      } else {
+        dataArr = StringConverter.split(data, this.splitRegex);
+      }
 
       for (const d of dataArr) {
-        result.push(this.switchDataType(d, type));
+        const typeResult = this.switchDataType(d, type);
+        if (typeResult === '' || typeResult === undefined || typeResult === null) continue;
+        result.push(typeResult);
       }
     } else {
       result = this.switchDataType(data, type);
@@ -220,7 +235,8 @@ class GSheets {
     switch (type.toLowerCase()) {
       case 'map': {
         let mapData = {};
-        const dataSplit = data.split(',');
+        let propCount = 0;
+        const dataSplit = StringConverter.split(data, this.splitRegex);
 
         for (const d of dataSplit) {
           const keyValueSplit = d.split(':');
@@ -234,9 +250,11 @@ class GSheets {
             [camelCaseKey]: StringConverter.trim(keyValueSplit[1]),
             ...mapData,
           };
+
+          ++propCount;
         }
 
-        return mapData;
+        return propCount > 0 ? mapData : null;
       }
       case 'number': {
         if (data) {
