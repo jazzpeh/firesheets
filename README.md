@@ -9,9 +9,10 @@ This package makes it easy use to maintain your firebase database (Firestore) us
 1. [Installation](#installation)
 2. [CLI Commands](#cli-commands)
 3. [Release Notes](#release-notes)
-4. [More Information](#more-information)
+4. [Google Sheet Formatting](#google-sheet-formatting)
+5. [More Information](#more-information)
     * [Small Print](#small-print)
-5. [License](#license)
+6. [License](#license)
 
 ## Installation
 
@@ -54,6 +55,51 @@ Example usage of arguments:
 
 ```bash
 firesheets --sheet.id 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms --sheet.cred /Users/john/.google/credentials.json --db.name firesheets-9e63f --db.cred /Users/john/.firebase/firesheets-9e63f-firebase-adminsdk-abcdef-ghi.json
+```
+
+## Google Sheet Formatting
+
+First row will always be used as the column name. Indicate the type next to the column name enclosed by `<>`.
+
+Allowed types are (do note that they are not case sensitve):
+
+| Type | Description |
+|--------|--------|
+| String | String value type, if there are no type specified in the header, this will be used as the default type.
+| Number | Int/Double value type, automatically detect if there's any decimal and convert them to the correct int/double type.
+| Bool | Boolean value type
+| Map | Object value type, use `,` to separate the properties. If you need to use `,` in your property value, enclosed them with a double `"` quote.
+| *type*[] | For array, use the type of array that you want. So if you want to use a String array, enter the value as `String[]`, map array `Map[]` etc. Use `,` to split the values for primitive value array and use `,,` for Map array.
+
+E.g.:
+
+| Title&lt;String> | Description&lt;String> | Categories<String[]> | English<Map> | Localization<Map[]> |
+|--------|--------|--------|--------|--------|
+| Hello World | This is my hello world application. | design, development | us: hello, uk: hi, sg: "what's up", | country: China, text: 你好,, country: Spain, text: hola |
+
+This will translate to:
+
+```json
+{
+    "title": "Hello World",
+    "description": "This is my hello world application.",
+    "categories": ["design", "development"],
+    "english": {
+        "us": "hello",
+        "uk": "hi",
+        "sg": "what's up"
+    },
+    "localization": [
+        {
+            "country": "China",
+            "text": "你好",
+        },
+        {
+            "country": "Spain",
+            "text": "hola",
+        }
+    ]
+}
 ```
 
 ## Release Notes
