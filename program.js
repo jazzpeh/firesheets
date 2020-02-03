@@ -68,7 +68,6 @@ class Program {
       fb.resetRowIndex();
 
       const results = [];
-      const errors = [];
       const collectionLogText = colors.cyan(`[${collection}]`);
 
       console.log(`\nChunking data to max ${colors.cyan(`[${maxDocsPerBatch}]`)} documents per batch for collection ${collectionLogText}...`);
