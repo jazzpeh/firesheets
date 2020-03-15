@@ -73,7 +73,7 @@ Allowed types are (do note that they are not case sensitve):
 
 E.g.:
 
-| Title&lt;String> | Description&lt;String> | Categories<String[]> | English<Map> | Localization<Map[]> |
+| Title&lt;String> | Description&lt;String> | Categories<String[]> | English&lt;Map> | Localization&lt;Map[]> |
 |--------|--------|--------|--------|--------|
 | Hello World | This is my hello world application. | design, development | us: hello, uk: hi, sg: "what's up", | country: China, text: 你好,, country: Spain, text: hola |
 
